@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondaryLanguageSubtitle", "SecondaryLanguageSubtitle.csproj", "{89343134-911E-4434-87FD-F5FB2BD35A00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondaryLanguageSubtitle", "SecondaryLanguageSubtitle/SecondaryLanguageSubtitle.csproj", "{89343134-911E-4434-87FD-F5FB2BD35A00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

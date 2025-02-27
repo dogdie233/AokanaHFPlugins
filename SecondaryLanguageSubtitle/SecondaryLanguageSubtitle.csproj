@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(AokanaManaged)' == ''">
-        <ManagedDir>./lib</ManagedDir>
+        <ManagedDir>../lib</ManagedDir>
     </PropertyGroup>
 
     <ItemGroup>
