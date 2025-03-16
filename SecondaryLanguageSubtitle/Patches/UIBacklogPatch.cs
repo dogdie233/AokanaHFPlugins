@@ -13,11 +13,15 @@ public class UIBacklogPatch
     [HarmonyPatch(typeof(UIBacklog), "RefreshUI")]
     [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> TranspileUIBacklogRefreshUI(IEnumerable<CodeInstruction> instructions, MethodBase original)
-    {
+    { 
         var hijack = AccessTools.Method(typeof(UIBacklogPatch), nameof(SplitLangStr));
+        
         foreach (var instruction in instructions)
         {
-            if ((instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Callvirt) && instruction.operand is MethodInfo methodInfo && methodInfo.ToString() == hijack.ToString())
+            // We only need to compare the signature of the called function with the signature of the function we want to replace
+            if ((instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Callvirt)
+                && instruction.operand is MethodInfo methodInfo
+                && methodInfo.ToString() == hijack.ToString())
             {
                 yield return new CodeInstruction(OpCodes.Call, hijack);
                 SecondaryLanguage.MyLogger.LogDebug($"Hijacking method {original.Name} in {original.DeclaringType?.Name}");
@@ -35,7 +39,6 @@ public class UIBacklogPatch
             var primary = Utils.SplitLangStr(t, EngineMain.lang);
             var secondary = Utils.SplitLangStr(t, SecondaryLanguage.SecLang);
             uestext = $"<size=20>{primary}</size>\n<size=16>{secondary}</size>";
-            SecondaryLanguage.MyLogger.LogDebug($"[Backlog] use text is {uestext}");
             return;
         }
         uestext = t;

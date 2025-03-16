@@ -17,7 +17,6 @@ public class SecondaryUIAdv : MonoBehaviour
 
     private EngineMain _engine;
     private UIAdv _uiAdv;
-    private TextMeshProUGUI _nameText;
     private TextMeshProUGUI _advText;
     private TextFader _fader;
     
@@ -30,8 +29,6 @@ public class SecondaryUIAdv : MonoBehaviour
     {
         _engine = EngineMain.engine;
         _uiAdv = GetComponent<UIAdv>();
-        _nameText = Instantiate(_uiAdv.nametext.gameObject, transform).GetComponent<TextMeshProUGUI>();
-        _nameText.gameObject.name += " Secondary";
         _advText = Instantiate(_uiAdv.advtext.gameObject, transform).GetComponent<TextMeshProUGUI>();
         _advText.gameObject.name += " Secondary";
         _advText.color = GetLighterColor(_uiAdv.advtext.color);
@@ -41,15 +38,12 @@ public class SecondaryUIAdv : MonoBehaviour
     {
         if (SecondaryLanguage.SecLang == EngineMain.Language.none)
         {
-            _nameText.text = string.Empty;
             _advText.text = string.Empty;
             return;
         }
 
         ReinitLangFont();
         var text = Utils.SplitLangStr(textIn, SecondaryLanguage.SecLang);
-        var displayName = Utils.SplitLangStr(displayNameIn, SecondaryLanguage.SecLang);
-        _nameText.text = displayName;
         text = _prepTextTags(_uiAdv, text);
         
         
@@ -70,7 +64,6 @@ public class SecondaryUIAdv : MonoBehaviour
         if (id < 0 || id >= UIAdv.fontname.Length)
             id = 0;
         var fontAsset = Resources.Load<TMP_FontAsset>("font/" + UIAdv.fontname[id]);
-        _nameText.font = fontAsset;
         _advText.font = fontAsset;
         // AdvTextShadow_Update();
     }
@@ -145,45 +138,46 @@ public class SecondaryUIAdv : MonoBehaviour
         return Color.HSVToRGB(h, s - 0.2f, v);   
     }
 
-    private bool selectingPrimary = true;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F)) selectingPrimary = !selectingPrimary;
-        var curr = selectingPrimary ? _uiAdv.advtext : _advText;
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            curr.transform.localPosition += new Vector3(0, 1, 0);
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} position: {curr.transform.localPosition}");
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            curr.transform.localPosition -= new Vector3(0, 1, 0);
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} position: {curr.transform.localPosition}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            curr.fontSize -= 1;
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} font size: {curr.fontSize}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            curr.fontSize += 1;
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} font size: {curr.fontSize}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            curr.lineSpacing -= 1f;
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} line spacing: {curr.lineSpacing}");
-        }
-        
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            curr.lineSpacing += 1f;
-            SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} line spacing: {curr.lineSpacing}");
-        }
-    }
+    // // Only Used for debug
+    // private bool selectingPrimary = true;
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.F)) selectingPrimary = !selectingPrimary;
+    //     var curr = selectingPrimary ? _uiAdv.advtext : _advText;
+    //     if (Input.GetKeyDown(KeyCode.I))
+    //     {
+    //         curr.transform.localPosition += new Vector3(0, 1, 0);
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} position: {curr.transform.localPosition}");
+    //     }
+    //
+    //     if (Input.GetKeyDown(KeyCode.K))
+    //     {
+    //         curr.transform.localPosition -= new Vector3(0, 1, 0);
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} position: {curr.transform.localPosition}");
+    //     }
+    //     
+    //     if (Input.GetKeyDown(KeyCode.H))
+    //     {
+    //         curr.fontSize -= 1;
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} font size: {curr.fontSize}");
+    //     }
+    //     
+    //     if (Input.GetKeyDown(KeyCode.L))
+    //     {
+    //         curr.fontSize += 1;
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} font size: {curr.fontSize}");
+    //     }
+    //     
+    //     if (Input.GetKeyDown(KeyCode.U))
+    //     {
+    //         curr.lineSpacing -= 1f;
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} line spacing: {curr.lineSpacing}");
+    //     }
+    //     
+    //     if (Input.GetKeyDown(KeyCode.O))
+    //     {
+    //         curr.lineSpacing += 1f;
+    //         SecondaryLanguage.MyLogger.LogDebug($"Current {curr.gameObject.name} line spacing: {curr.lineSpacing}");
+    //     }
+    // }
 }
